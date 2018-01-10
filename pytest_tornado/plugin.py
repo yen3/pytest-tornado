@@ -9,6 +9,7 @@ import tornado.gen
 import tornado.testing
 import tornado.httpserver
 import tornado.httpclient
+import tornado.process
 
 if sys.version_info[:2] >= (3, 5):
     iscoroutinefunction = inspect.iscoroutinefunction
@@ -34,6 +35,12 @@ except AttributeError:
         future.add_done_callback(
             lambda future: io_loop.remove_timeout(timeout_handle))
         return result
+
+try:
+    subprocess_uninitialize = tornado.process.Subprocess.uninitialize
+except AttributeError:
+    def subprocess_uninitialize():
+        return None
 
 
 def _get_async_test_timeout():
@@ -132,6 +139,7 @@ def io_loop(request):
     io_loop.make_current()
 
     def _close():
+        subprocess_uninitialize()
         io_loop.clear_current()
         if (not tornado.ioloop.IOLoop.initialized() or
                 io_loop is not tornado.ioloop.IOLoop.instance()):
