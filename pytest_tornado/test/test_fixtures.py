@@ -53,3 +53,9 @@ def test_gen_test_with_subprocess():
 @pytest.mark.gen_test
 def test_gen_test_with_subprocess_no_hang():
     yield echo_hello_world()
+
+
+@pytest.mark.gen_test_current
+def test_gen_test_current():
+    yield echo_hello_world()
+    # yield gen.sleep(1)

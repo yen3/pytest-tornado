@@ -5,6 +5,7 @@ import inspect
 import datetime
 import pytest
 import tornado
+import tornado.ioloop
 import tornado.gen
 import tornado.testing
 import tornado.httpserver
@@ -36,11 +37,7 @@ except AttributeError:
             lambda future: io_loop.remove_timeout(timeout_handle))
         return result
 
-try:
-    subprocess_uninitialize = tornado.process.Subprocess.uninitialize
-except AttributeError:
-    def subprocess_uninitialize():
-        return None
+subprocess_uninitialize = tornado.process.Subprocess.uninitialize
 
 
 def _get_async_test_timeout():
@@ -87,7 +84,7 @@ def _timeout(item):
 def pytest_pycollect_makeitem(collector, name, obj):
     if collector.funcnamefilter(name) and inspect.isgeneratorfunction(obj):
         item = pytest.Function(name, parent=collector)
-        if 'gen_test' in item.keywords:
+        if 'gen_test' in item.keywords or 'gen_test_current' in item.keywords:
             return list(collector._genfunctions(name, obj))
 
 
@@ -100,8 +97,11 @@ def pytest_runtest_setup(item):
 @pytest.mark.tryfirst
 def pytest_pyfunc_call(pyfuncitem):
     gen_test_mark = pyfuncitem.keywords.get('gen_test')
+    gen_test_current_mark = pyfuncitem.keywords.get('gen_test_current')
+
     if gen_test_mark:
         io_loop = pyfuncitem.funcargs.get('io_loop')
+
         run_sync = gen_test_mark.kwargs.get('run_sync', True)
 
         funcargs = dict((arg, pyfuncitem.funcargs[arg])
@@ -130,23 +130,36 @@ def pytest_pyfunc_call(pyfuncitem):
         # prevent other pyfunc calls from executing
         return True
 
+    elif gen_test_current_mark:
+        funcargs = dict((arg, pyfuncitem.funcargs[arg])
+                        for arg in _argnames(pyfuncitem.obj))
+        if iscoroutinefunction(pyfuncitem.obj):
+            coroutine = pyfuncitem.obj
+            future = tornado.gen.convert_yielded(coroutine(**funcargs))
+        else:
+            coroutine = tornado.gen.coroutine(pyfuncitem.obj)
+            future = coroutine(**funcargs)
 
-@pytest.fixture
+        tornado.ioloop.IOLoop.current().run_sync(lambda: future)
+
+        # prevent other pyfunc calls from executing
+        return True
+
+
+@pytest.yield_fixture
 def io_loop(request):
     """Create an instance of the `tornado.ioloop.IOLoop` for each test case.
     """
     io_loop = tornado.ioloop.IOLoop()
     io_loop.make_current()
 
-    def _close():
-        subprocess_uninitialize()
-        io_loop.clear_current()
-        if (not tornado.ioloop.IOLoop.initialized() or
-                io_loop is not tornado.ioloop.IOLoop.instance()):
-            io_loop.close(all_fds=True)
+    yield io_loop
 
-    request.addfinalizer(_close)
-    return io_loop
+    subprocess_uninitialize()
+    io_loop.clear_current()
+    if (not tornado.ioloop.IOLoop.initialized() or
+        io_loop is not tornado.ioloop.IOLoop.instance()):
+        io_loop.close(all_fds=True)
 
 
 @pytest.fixture
