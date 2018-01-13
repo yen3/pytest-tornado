@@ -7,7 +7,7 @@ pytest-tornado
 .. image:: https://coveralls.io/repos/eugeniy/pytest-tornado/badge.svg
     :target: https://coveralls.io/r/eugeniy/pytest-tornado
 
-A py.test_ plugin providing fixtures and markers to simplify testing
+A pytest_ plugin providing fixtures and markers to simplify testing
 of asynchronous tornado applications.
 
 Installation
@@ -49,7 +49,7 @@ Running tests
 
 ::
 
-    py.test
+    pytest
 
 
 Fixtures
@@ -75,7 +75,7 @@ http_client
 
 Show fixtures provided by the plugin::
 
-    py.test --fixtures
+    pytest --fixtures
 
 
 Markers
@@ -114,10 +114,10 @@ The mark can also receive a run_sync flag, which if turned off will, instead of 
 
 Show markers provided by the plugin::
 
-    py.test --markers
+    pytest --markers
 
 
-.. _py.test: http://pytest.org/
+.. _pytest: http://pytest.org/
 .. _`tornado.ioloop.IOLoop`: http://tornado.readthedocs.org/en/latest/ioloop.html#ioloop-objects
 .. _`tornado.web.Application`: http://tornado.readthedocs.org/en/latest/web.html#application-configuration
 .. _`tornado.gen`: http://tornado.readthedocs.org/en/latest/gen.html
