@@ -12,7 +12,7 @@ with io.open(os.path.join(cwd, 'README.rst'), encoding='utf-8') as fd:
 setup(
     name='pytest-tornado',
     version='0.4.5',
-    description=('A py.test plugin providing fixtures and markers '
+    description=('A pytest plugin providing fixtures and markers '
                  'to simplify testing of asynchronous tornado applications.'),
     long_description=long_description,
     url='https://github.com/eugeniy/pytest-tornado',
@@ -31,7 +31,7 @@ setup(
         'Topic :: Software Development',
         'Topic :: Software Development :: Testing',
     ],
-    keywords=('pytest py.test tornado async asynchronous '
+    keywords=('pytest pytest tornado async asynchronous '
               'testing unit tests plugin'),
     packages=find_packages(),
     install_requires=['pytest', 'tornado==4.5.2'],
