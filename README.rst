@@ -92,7 +92,7 @@ A ``gen_test`` marker lets you write a coroutine-style tests used with the
         assert response.code == 200
 
 Sometimes maybe you meet `gen_test` would hang with your test (ex: test with
-[tornadis](https://github.com/thefab/tornadis) ). You can use `gen_test_current`
+tornadis_). You can use `gen_test_current`
 to use the current IOLoop rather then to create a new ioloop for each test
 
 
@@ -137,3 +137,4 @@ Show markers provided by the plugin::
 .. _`tornado.ioloop.IOLoop`: http://tornado.readthedocs.org/en/latest/ioloop.html#ioloop-objects
 .. _`tornado.web.Application`: http://tornado.readthedocs.org/en/latest/web.html#application-configuration
 .. _`tornado.gen`: http://tornado.readthedocs.org/en/latest/gen.html
+.. _tornadis: https://github.com/thefab/tornadis
