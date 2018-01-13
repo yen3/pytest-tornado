@@ -59,7 +59,12 @@ def pytest_configure(config):
     config.addinivalue_line("markers",
                             "gen_test(timeout=None): "
                             "mark the test as asynchronous, it will be "
-                            "run using tornado's event loop")
+                            "create a tornado's event loop and use it to run "
+                            "the test")
+    config.addinivalue_line("markers",
+                            "gen_test_current(timeout=None): "
+                            "mark the test as asynchronous, it will be "
+                            "run using tornado's current event loop")
 
 
 def _argnames(func):
