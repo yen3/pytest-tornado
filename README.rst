@@ -91,6 +91,22 @@ A ``gen_test`` marker lets you write a coroutine-style tests used with the
         response = yield http_client.fetch('http://www.tornadoweb.org/')
         assert response.code == 200
 
+Sometimes maybe you meet `gen_test` would hang with your test (ex: test with
+[tornadis](https://github.com/thefab/tornadis)). You can use `gen_test_current`
+to use the current IOLoop rather then to create a new ioloop for each test
+
+
+.. code-block:: python
+
+    import tornadis
+
+    @pytest.mark.gen_test_current
+    def test_tornadis():
+         client = tornadis.Client(host=REDIS_HOST, port=REDIS_PORT, 
+             autoconnect=True)
+         msg = yield client.call('PING')
+         assert msg.decode('utf8') == 'PONG'
+
 
 Marked tests will time out after 5 seconds. The timeout can be modified by
 setting an ``ASYNC_TEST_TIMEOUT`` environment variable,
