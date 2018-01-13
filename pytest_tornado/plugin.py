@@ -17,26 +17,7 @@ if sys.version_info[:2] >= (3, 5):
 else:
     iscoroutinefunction = lambda f: False
 
-try:
-    with_timeout = tornado.gen.with_timeout
-except AttributeError:
-    from tornado.ioloop import IOLoop
-    from tornado.concurrent import Future, chain_future
-
-    # simplified version of 'with_timeout' from tornado 4.0
-    # to work with tornado 3
-    def with_timeout(timeout, future, io_loop=None):
-        result = Future()
-        chain_future(future, result)
-        if io_loop is None:
-            io_loop = IOLoop.current()
-        timeout_handle = io_loop.add_timeout(
-            timeout,
-            lambda: result.set_exception(TimeoutError("Timeout")))
-        future.add_done_callback(
-            lambda future: io_loop.remove_timeout(timeout_handle))
-        return result
-
+with_timeout = tornado.gen.with_timeout
 subprocess_uninitialize = tornado.process.Subprocess.uninitialize
 
 
