@@ -1,12 +1,6 @@
 pytest-tornado
 ==============
 
-.. image:: https://travis-ci.org/eugeniy/pytest-tornado.svg?branch=master
-    :target: https://travis-ci.org/eugeniy/pytest-tornado
-
-.. image:: https://coveralls.io/repos/eugeniy/pytest-tornado/badge.svg
-    :target: https://coveralls.io/r/eugeniy/pytest-tornado
-
 A pytest_ plugin providing fixtures and markers to simplify testing
 of asynchronous tornado applications.
 
