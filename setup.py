@@ -11,7 +11,7 @@ with io.open(os.path.join(cwd, 'README.rst'), encoding='utf-8') as fd:
 
 setup(
     name='pytest-tornado',
-    version='0.4.5',
+    version='0.4.6',
     description=('A pytest plugin providing fixtures and markers '
                  'to simplify testing of asynchronous tornado applications.'),
     long_description=long_description,
@@ -34,7 +34,7 @@ setup(
     keywords=('pytest pytest tornado async asynchronous '
               'testing unit tests plugin'),
     packages=find_packages(),
-    install_requires=['pytest', 'tornado==4.5.2'],
+    install_requires=['pytest', 'tornado'],
     entry_points={
         'pytest11': ['tornado = pytest_tornado.plugin'],
     },
