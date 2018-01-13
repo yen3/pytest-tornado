@@ -92,7 +92,7 @@ A ``gen_test`` marker lets you write a coroutine-style tests used with the
         assert response.code == 200
 
 Sometimes maybe you meet `gen_test` would hang with your test (ex: test with
-[tornadis](https://github.com/thefab/tornadis)). You can use `gen_test_current`
+[tornadis](https://github.com/thefab/tornadis) ). You can use `gen_test_current`
 to use the current IOLoop rather then to create a new ioloop for each test
 
 
