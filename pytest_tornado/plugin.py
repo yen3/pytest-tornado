@@ -140,7 +140,8 @@ def pytest_pyfunc_call(pyfuncitem):
             coroutine = tornado.gen.coroutine(pyfuncitem.obj)
             future = coroutine(**funcargs)
 
-        tornado.ioloop.IOLoop.current().run_sync(lambda: future)
+        tornado.ioloop.IOLoop.current().run_sync(lambda: future,
+                                                 timeout=_timeout(pyfuncitem))
 
         # prevent other pyfunc calls from executing
         return True
