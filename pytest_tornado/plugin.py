@@ -134,7 +134,7 @@ def pytest_pyfunc_call(pyfuncitem):
 
 
 @pytest.yield_fixture
-def io_loop(request):
+def io_loop():
     """Create an instance of the `tornado.ioloop.IOLoop` for each test case.
     """
     io_loop = tornado.ioloop.IOLoop()
@@ -192,7 +192,7 @@ def http_server(request, io_loop, _unused_port):
 
 
 @pytest.yield_fixture
-def http_client(request, http_server):
+def http_client(http_server):
     """Get an asynchronous HTTP client.
     """
     client = tornado.httpclient.AsyncHTTPClient(io_loop=http_server.io_loop)
