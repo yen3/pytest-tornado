@@ -7,7 +7,7 @@ python:
 env:
     - TORNADO_VERSION=4.5.1 PYTEST=3.3.2
     - TORNADO_VERSION=4.5.2 PYTEST=3.3.2
-    #- TORNADO_VERSION=4.5.3 PYTEST=3.3.2
+    - TORNADO_VERSION=4.5.3 PYTEST=3.3.2
 install:
     - pip install -q tornado==$TORNADO_VERSION pytest==$PYTEST_VERSION
     - python setup.py install
@@ -19,4 +19,4 @@ matrix:
     - python: 3.5
       env: TORNADO_VERSION=4.1 PYTEST_VERSION=2.7.0
 script:
-    - pytest
+    - pytest -sv
