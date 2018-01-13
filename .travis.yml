@@ -11,12 +11,5 @@ env:
 install:
     - pip install -q tornado==$TORNADO_VERSION pytest==$PYTEST_VERSION
     - python setup.py install
-matrix:
-  exclude:
-      env: TORNADO_VERSION=4.1 PYTEST_VERSION=2.6.4
-    - python: 3.5
-      env: TORNADO_VERSION=4.1 PYTEST_VERSION=2.5.2
-    - python: 3.5
-      env: TORNADO_VERSION=4.1 PYTEST_VERSION=2.7.0
 script:
     - pytest -sv
