@@ -1,6 +1,9 @@
 pytest-tornado
 ==============
 
+.. image:: https://api.travis-ci.org/yen3/pytest-tornado.svg?branch=master 
+    :target: https://travis-ci.org/yen3/pytest-tornado
+
 A pytest_ plugin providing fixtures and markers to simplify testing
 of asynchronous tornado applications.
 
