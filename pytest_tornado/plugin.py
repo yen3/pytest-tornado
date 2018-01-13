@@ -187,7 +187,7 @@ def base_url(http_port):
     return 'http://localhost:%s' % http_port
 
 
-@pytest.fixture
+@pytest.yield_fixture
 def http_server(request, io_loop, _unused_port):
     """Start a tornado HTTP server.
 
@@ -201,27 +201,23 @@ def http_server(request, io_loop, _unused_port):
     server = tornado.httpserver.HTTPServer(http_app, io_loop=io_loop)
     server.add_socket(_unused_port[0])
 
-    def _stop():
-        server.stop()
+    yield server
 
-        if hasattr(server, 'close_all_connections'):
-            io_loop.run_sync(server.close_all_connections,
-                             timeout=request.config.option.async_test_timeout)
+    server.stop()
 
-    request.addfinalizer(_stop)
-    return server
+    if hasattr(server, 'close_all_connections'):
+        io_loop.run_sync(server.close_all_connections,
+                         timeout=request.config.option.async_test_timeout)
 
 
-@pytest.fixture
+@pytest.yield_fixture
 def http_client(request, http_server):
     """Get an asynchronous HTTP client.
     """
     client = tornado.httpclient.AsyncHTTPClient(io_loop=http_server.io_loop)
 
-    def _close():
-        if (not tornado.ioloop.IOLoop.initialized() or
-                client.io_loop is not tornado.ioloop.IOLoop.instance()):
-            client.close()
+    yield client
 
-    request.addfinalizer(_close)
-    return client
+    if (not tornado.ioloop.IOLoop.initialized() or
+            client.io_loop is not tornado.ioloop.IOLoop.instance()):
+        client.close()
