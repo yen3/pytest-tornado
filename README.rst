@@ -1,7 +1,11 @@
 pytest-tornado
 ==============
 
-.. image:: https://api.travis-ci.org/yen3/pytest-tornado.svg?branch=master 
+Caution: The original repo is eugeniy/pytest-tornado_. The pytest plugin is very
+useful for me but seems not maintained now (2018/01). I just fork it and add
+some funcitons which are needed by me.
+
+.. image:: https://api.travis-ci.org/yen3/pytest-tornado.svg?branch=master
     :target: https://travis-ci.org/yen3/pytest-tornado
 
 A pytest_ plugin providing fixtures and markers to simplify testing
@@ -130,6 +134,7 @@ Show markers provided by the plugin::
     pytest --markers
 
 
+.. _eugeniy/pytest-tornado: https://github.com/eugeniy/pytest-tornado
 .. _pytest: http://pytest.org/
 .. _`tornado.ioloop.IOLoop`: http://tornado.readthedocs.org/en/latest/ioloop.html#ioloop-objects
 .. _`tornado.web.Application`: http://tornado.readthedocs.org/en/latest/web.html#application-configuration
