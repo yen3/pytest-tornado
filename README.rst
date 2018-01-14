@@ -16,7 +16,11 @@ Installation
 
 ::
 
+    # Install original plugin
     pip install pytest-tornado
+
+    # Install the fork
+    pip install pytest-tornado-yen3
 
 
 Example
@@ -103,7 +107,7 @@ to use the current IOLoop rather then to create a new ioloop for each test
 
     @pytest.mark.gen_test_current
     def test_tornadis():
-         client = tornadis.Client(host=REDIS_HOST, port=REDIS_PORT, 
+         client = tornadis.Client(host=REDIS_HOST, port=REDIS_PORT,
              autoconnect=True)
          msg = yield client.call('PING')
          assert msg.decode('utf8') == 'PONG'
@@ -119,7 +123,7 @@ setting an ``ASYNC_TEST_TIMEOUT`` environment variable,
     def test_tornado(http_client):
         yield http_client.fetch('http://www.tornadoweb.org/')
 
-The mark can also receive a run_sync flag, which if turned off will, instead of running the test synchronously, will add it as a coroutine and run the IOLoop (until the timeout). For instance, this allows to test things on both a client and a server at the same time. 
+The mark can also receive a run_sync flag, which if turned off will, instead of running the test synchronously, will add it as a coroutine and run the IOLoop (until the timeout). For instance, this allows to test things on both a client and a server at the same time.
 
 .. code-block:: python
 

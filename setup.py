@@ -10,14 +10,14 @@ with io.open(os.path.join(cwd, 'README.rst'), encoding='utf-8') as fd:
 
 
 setup(
-    name='pytest-tornado',
+    name='pytest-tornado-yen3',
     version='0.4.6',
     description=('A pytest plugin providing fixtures and markers '
                  'to simplify testing of asynchronous tornado applications.'),
     long_description=long_description,
     url='https://github.com/eugeniy/pytest-tornado',
-    author='Eugeniy Kalinin',
-    author_email='burump@gmail.com',
+    author='Eugeniy Kalinin, Yen3',
+    author_email='burump@gmail.com, yen3@gmail.com',
     license='Apache License, Version 2.0',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
