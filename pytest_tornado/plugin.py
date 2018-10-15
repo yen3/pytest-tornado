@@ -84,7 +84,7 @@ def _argnames(func):
 def _timeout(item):
     default_timeout = item.config.getoption('async_test_timeout')
     if hasattr(item, 'get_closest_marker'):
-        gen_test = item.get_marker('gen_test')
+        gen_test = item.get_closest_marker('gen_test')
     else:
         gen_test = item.get_marker('gen_test')
 
@@ -110,9 +110,10 @@ def pytest_runtest_setup(item):
 
 @pytest.mark.tryfirst
 def pytest_pyfunc_call(pyfuncitem):
-    gen_test_mark = pyfuncitem.keywords.get('gen_test')
-    print(type(pyfuncitem))
-    print(type(gen_test_mark))
+    if hasattr(pyfuncitem, 'get_closest_marker'):
+        gen_test_mark = pyfuncitem.get_closest_marker('gen_test')
+    else:
+        gen_test_mark = pyfuncitem.keywords.get('gen_test')
 
     if gen_test_mark:
         io_loop = pyfuncitem.funcargs.get('io_loop')
